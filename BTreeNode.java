@@ -23,9 +23,9 @@ public class BTreeNode {
 		return n;
 	}
 	
-//	public void insertKey(long key) {
-//		
-//	}
+	public void setLeaf(boolean leaf) {
+		this.leaf = leaf;
+	}
 	
 	
 	
