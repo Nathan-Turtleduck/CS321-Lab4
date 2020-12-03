@@ -15,4 +15,19 @@ public class BTreeNode {
 		this.n = 0;
 	}
 	
+	public boolean leaf() {
+		return leaf;
+	}
+	
+	public int numKeys() {
+		return n;
+	}
+	
+//	public void insertKey(long key) {
+//		
+//	}
+	
+	
+	
+	
 }
