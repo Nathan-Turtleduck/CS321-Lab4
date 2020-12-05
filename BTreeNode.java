@@ -8,9 +8,8 @@ public class BTreeNode {
 	private int numChildren;
 	private boolean leaf; //Boolean of whether its a leaf or not
 	
-	public BTreeNode(int t, boolean leaf) {
+	public BTreeNode(int t) {
 		this.t = t;
-		this.leaf = leaf;
 		this.keys = new TreeObject[(2 * t)-1];
 		this.children = new BTreeNode[2 * t];
 		this.n = 0;
@@ -29,6 +28,9 @@ public class BTreeNode {
 		this.leaf = leaf;
 	}
 	
+	public void setN(int n) {
+		this.n = n;
+	}
 	
 	
 	
