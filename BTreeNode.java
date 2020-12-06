@@ -22,7 +22,12 @@ public class BTreeNode {
 		this.numChildren = 0;
 	}
 	
-	public void diskWrite() throws Exception {
+	/**
+	 * Writes the current node to it's random access file
+	 * @return Next available location for writing to
+	 * @throws Exception
+	 */
+	public int diskWrite() throws Exception {
 		raf.seek(start);
 		raf.writeInt(t);
 		raf.writeInt(n);
@@ -40,6 +45,8 @@ public class BTreeNode {
 		
 		raf.writeBoolean(leaf);
 		raf.writeInt(start);
+		raf.writeInt(-1); // Dummy value so we can start writing at that current offset
+		return (int) raf.getFilePointer(); // I don't think this is a problem by casting it, but let's flag this as a potential error
 	}
 	
 	public BTreeNode diskRead(int ref) throws Exception{
