@@ -23,6 +23,36 @@ public class BTree {
 		currentByte = root.diskWrite();
 	}
 	
+	/**
+	 * Implements PseudoCode for BTreeSearch to the 'T'
+	 * It is important to note that the user will have to search the node
+	 * for the matching key since you can't return two values.
+	 * @param root
+	 * @param key
+	 * @return Node that contains the key.
+	 * @throws Exception
+	 */
+	public BTreeNode BTreeSearch(BTreeNode root, long key) throws Exception{
+		
+		int i = 0; // Current index of key
+		
+		while((i < root.n) && (key > root.keys[i].getKey())) {
+			i++;
+		}
+		
+		if((i <= root.n) && (key == root.keys[i].getKey())) {
+			return root;
+		}
+		else if(root.leaf == true) {
+			return null;
+		}
+		else {
+			BTreeNode loadedNode = root.diskRead(root.childrenRef[i]);
+			return BTreeSearch(loadedNode, key);
+		}
+		
+	}
+	
 	
 	
 }
