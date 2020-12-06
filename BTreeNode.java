@@ -1,12 +1,12 @@
 
 public class BTreeNode {
 	
-	private int t; // Minimum degree
-	private int n; // Number of keys in subtree
-	private TreeObject[] keys; // Number of keys per Node
-	private BTreeNode[] children; // Number of children connections
-	private int numChildren;
-	private boolean leaf; //Boolean of whether its a leaf or not
+	protected int t; // Minimum degree
+	protected int n; // Number of keys in subtree
+	protected TreeObject[] keys; // Number of keys per Node
+	protected BTreeNode[] children; // Number of children connections
+	protected int numChildren;
+	protected boolean leaf; //Boolean of whether its a leaf or not
 	
 	public BTreeNode(int t) {
 		this.t = t;

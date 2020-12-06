@@ -8,9 +8,11 @@ public class BTree {
 	public BTree(int t) {
 		this.t = t;
 		BTreeNode x = new BTreeNode(t);
-		x.setLeaf(true);
-		x.setN(0);
+		x.leaf = true;
+		x.n = 0;
 		root = x;
 	}
+	
+	
 	
 }
