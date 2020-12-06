@@ -21,10 +21,10 @@ public class TreeObject {
 	
 	public int compareTo(TreeObject object) {
 		
-		if(this.key > object.key) {
+		if(key > object.key) {
 			return 1;
 		}
-		else if(this.key < object.key) {
+		else if(key < object.key) {
 			return -1;
 		}
 		else{
@@ -40,4 +40,11 @@ public class TreeObject {
 		return duplicateCount;
 	}
 	
+	public void setKeys(long key) {
+		this.key = key;
+	}
+	
+	public void  setDupes(int dupes) {
+		this.duplicateCount = dupes;
+	}
 }

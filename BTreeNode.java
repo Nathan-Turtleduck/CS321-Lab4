@@ -1,20 +1,72 @@
+import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class BTreeNode {
 	
 	protected int t; // Minimum degree
 	protected int n; // Number of keys in subtree
 	protected TreeObject[] keys; // Number of keys per Node
-	protected BTreeNode[] children; // Number of children connections
-	protected int numChildren;
-	protected boolean leaf; //Boolean of whether its a leaf or not
+	protected int[] childrenRef; // References to the children of a node
+	protected int numChildren; // Current number of children
+	protected boolean leaf; // Boolean of whether its a leaf or not
+	protected RandomAccessFile raf; // File to be written to / read from
+	protected int start; // Starting byte within the file for the given node
 	
-	public BTreeNode(int t) {
+	public BTreeNode(int t, int startByte, RandomAccessFile raf) {
+		this.start = startByte;
+		this.raf = raf;
 		this.t = t;
 		this.keys = new TreeObject[(2 * t)-1];
-		this.children = new BTreeNode[2 * t];
+		this.childrenRef = new int[2 * t];
 		this.n = 0;
 		this.numChildren = 0;
 	}
+	
+	public void diskWrite() throws Exception {
+		raf.seek(start);
+		raf.writeInt(t);
+		raf.writeInt(n);
+		
+		for(int i = 0; i < n; i++) {
+			raf.writeLong(keys[i].getKey());
+			raf.writeInt(keys[i].getDuplicateCount());
+		}
+		raf.writeInt(numChildren);
+		
+		for(int i = 0; i < numChildren; i++) {
+			raf.writeInt(childrenRef[i]);
+		}
+		
+		
+		raf.writeBoolean(leaf);
+		raf.writeInt(start);
+	}
+	
+	public BTreeNode diskRead(int ref) throws Exception{
+		 
+		raf.seek(ref);
+		BTreeNode node = new BTreeNode(t, ref, raf);
+		node.t = raf.readInt();
+		node.n = raf.readInt();
+		
+		for(int i = 0; i < node.n; i++) {
+			node.keys[i].setKeys(raf.readLong());
+			node.keys[i].setDupes(raf.readInt());
+			
+		}
+		
+		node.numChildren = raf.readInt();
+		
+		for(int i = 0; i < node.numChildren; i++) {
+			node.childrenRef[i] = raf.readInt();
+		}
+		
+		node.leaf = raf.readBoolean();
+		node.start = raf.readInt();
+		
+		return node;
+	}
+	
 	
 	
 	
