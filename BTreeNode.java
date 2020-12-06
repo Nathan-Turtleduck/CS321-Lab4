@@ -16,21 +16,6 @@ public class BTreeNode {
 		this.numChildren = 0;
 	}
 	
-	public boolean leaf() {
-		return leaf;
-	}
-	
-	public int numKeys() {
-		return n;
-	}
-	
-	public void setLeaf(boolean leaf) {
-		this.leaf = leaf;
-	}
-	
-	public void setN(int n) {
-		this.n = n;
-	}
 	
 	
 	
