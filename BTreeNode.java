@@ -74,6 +74,25 @@ public class BTreeNode {
 		return node;
 	}
 	
+	/**
+	 * Returns the number of children and updates the numChildren instance variable
+	 * @return numChildren
+	 */
+	public int getNumChildren() {
+		int retVal = 0;
+		
+		for(int i = 0; i < childrenRef.length; i++) {
+			
+			if(childrenRef[i] >= 0) {
+				retVal++;
+			}
+			
+		}
+		numChildren = retVal;
+		return retVal;
+		
+	}
+	
 	
 	
 	
