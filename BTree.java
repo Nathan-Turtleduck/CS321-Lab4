@@ -53,6 +53,47 @@ public class BTree {
 		
 	}
 	
+	/**
+	 * Splits a given node where x is a nonfull node
+	 * i - y = x.c[i] is a full child
+	 * @param x
+	 * @param i
+	 * @throws Exception
+	 */
+	public void BTreeSplitChild(BTreeNode x, int i) throws Exception {
+		
+		BTreeNode z = new BTreeNode(t, currentByte, raf);
+		BTreeNode y = x.diskRead(x.childrenRef[i]);
+		z.leaf = y.leaf;
+		z.n = t - 1;
+		
+		for(int j = 1; j != (t-1); j++) {
+			z.keys[j] = y.keys[j+t];
+		}
+		if(!y.leaf) {
+			for(int j = 1; j <= t; j++) {
+				z.childrenRef[j] = y.childrenRef[j+t];
+			}
+		}
+		y.n = t-1;
+		
+		for(int j = x.n + 1; j >= i +1; j--) {
+			x.childrenRef[j+1] = x.childrenRef[j];
+		}
+		x.childrenRef[i+1] = z.start;
+		
+		for(int j = x.n; j >= i; j--) {
+			x.keys[j+1] = x.keys[j];
+		}
+		x.keys[i+1] = y.keys[t];
+		x.n = x.n + 1;
+		
+		y.diskWrite();
+		x.diskWrite();
+		currentByte = z.diskWrite();
+		
+	}
+	
 	
 	
 }
