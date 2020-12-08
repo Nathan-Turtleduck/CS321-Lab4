@@ -67,7 +67,7 @@ public class BTree {
 		z.leaf = y.leaf;
 		z.n = t - 1;
 		
-		for(int j = 1; j != (t-1); j++) {
+		for(int j = 1; j < t; j++) {
 			z.keys[j] = y.keys[j+t];
 		}
 		if(!y.leaf) {
@@ -77,7 +77,7 @@ public class BTree {
 		}
 		y.n = t-1;
 		
-		for(int j = x.n + 1; j >= i +1; j--) {
+		for(int j = x.n + 1; j > i; j--) {
 			x.childrenRef[j+1] = x.childrenRef[j];
 		}
 		x.childrenRef[i+1] = z.start;
