@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -173,6 +175,34 @@ public class BTree {
 		
 	}
 	
+	/**
+	 * Entry for the recursive method traverseInorder
+	 * Allows the user to create a dump file from the tree from a given file
+	 * @param fileName
+	 * @throws Exception
+	 */
+	public void debugDump(File fileName) throws Exception {
+		
+		FileWriter fw = new FileWriter(fileName);
+		traverseInOrder(root, fw);
+		
+	}
+	
+	/**
+	 * Recursive method that writes each node and the number of duplicates to a file
+	 * @param node
+	 * @param fw
+	 * @throws Exception
+	 */
+	private void traverseInOrder(BTreeNode node, FileWriter fw) throws Exception {
+		
+		for(int i = 0; i < node.getNumChildren(); i++) {
+			traverseInOrder(node.diskRead(node.childrenRef[i]), fw);
+			fw.write(node.keys[i].toString() + "\n");
+		}
+		traverseInOrder(node.diskRead(node.childrenRef[node.getNumChildren() -1]), fw);
+		
+	}
 	
 	
 }
