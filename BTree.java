@@ -60,7 +60,7 @@ public class BTree {
 	 * @param i
 	 * @throws Exception
 	 */
-	public void BTreeSplitChild(BTreeNode x, int i) throws Exception {
+	private void BTreeSplitChild(BTreeNode x, int i) throws Exception {
 		
 		BTreeNode z = new BTreeNode(t, currentByte, raf);
 		BTreeNode y = x.diskRead(x.childrenRef[i]);
@@ -90,7 +90,86 @@ public class BTree {
 		
 		y.diskWrite();
 		x.diskWrite();
-		currentByte = z.diskWrite();
+		currentByte = z.diskWrite(); // Cursor only gets moved with this node because it has not been written before
+		
+	}
+	
+	/**
+	 * Inserts a new TreeObject into a nonfull node
+	 * @param parent - Node you're trying to insert into
+	 * @param newObject - object you're trying to insert
+	 * @throws Exception
+	 */
+	private void BTreeInsertNonfull(BTreeNode parent, TreeObject newObject) throws Exception {
+		
+		int i = parent.n;
+		
+		if(parent.leaf) {
+			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) {
+				parent.keys[i+1] = parent.keys[i];
+				i--;
+			}
+			
+			parent.keys[i+1] = newObject;
+			parent.n = parent.n + 1;
+			parent.diskWrite();
+		}else {
+			
+			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) {
+				i--;
+			}
+			i++;
+			BTreeNode child = parent.diskRead(parent.childrenRef[i]);
+			
+			if(child.n == (2*t - 1)) {
+				BTreeSplitChild(parent, i);
+				if(newObject.getKey() > parent.keys[i].getKey()) {
+					i++;
+				}
+			}
+			BTreeInsertNonfull(child, newObject);
+			
+		}
+	}
+	
+	/**
+	 * Insert method the user will be able to call to insert a new object.
+	 * Uses helper methods to decide how to insert the object
+	 * @param newObject
+	 * @throws Exception
+	 */
+	public void BTreeInsert(TreeObject newObject) throws Exception {
+		
+		BTreeNode r = root;
+		
+		if(r.n == (2*t - 1)) {
+			
+			root.start = currentByte; // Readjust where the root is written
+			currentByte = root.diskWrite();
+			
+			BTreeNode s = new BTreeNode(t, 0, raf); // Write the new root to be the beginning of the file
+			root = s;
+			s.leaf = false;
+			s.n = 0;
+			s.childrenRef[1] = r.start; // THIS MAY BE AN OFF BY 1 ERROR. WE WILL HAVE TO SEE
+			BTreeSplitChild(s, 1);
+			BTreeInsertNonfull(s, newObject);
+			
+		}else {
+			BTreeInsertNonfull(r, newObject);
+		}
+		
+	}
+	
+	/**
+	 * This method should be called when the user is done inserting
+	 * items into the BTree or would like to analyze the B-Tree
+	 * This rewrites the root to the beginning of the file
+	 * @throws Exception
+	 */
+	public void finish() throws Exception {
+		
+		root.diskWrite();
 		
 	}
 	
