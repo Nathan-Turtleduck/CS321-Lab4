@@ -11,8 +11,8 @@ public class TreeObject {
 	private int duplicateCount;
 	private int longLength;
 	
-	public TreeObject(long key, int length) {
-		this.key = key;
+	public TreeObject(String key, int length) {
+		this.key = Long.parseLong(key,2);
 		duplicateCount = 0;
 		longLength = length;
 	}
@@ -50,12 +50,24 @@ public class TreeObject {
 		this.duplicateCount = dupes;
 	}
 	
-	//THIS METHOD DOES NOT WORK YET, IT NEEDED TO BE IMPLEMENTED SO I COULD FINISH THE WRITE METHOD
+	/**
+	 * Converts the key back to a regular string and returns the key 
+	 * with its duplicate count
+	 */
 	public String toString() {
 		
 		String retString = "";
 		
-		String longString = Long.toString(key);
+		String longString = Long.toBinaryString(key);
+		
+		
+		if(longString.length() != longLength) {
+			int difference = longLength - longString.length();
+			
+			for(int i = 0; i < difference; i++) {
+				longString = "0" + longString;
+			}
+		}
 		
 		for(int i = 0; i < longLength; i += 2) {
 			String sub = longString.substring(i, i + 2);
