@@ -9,10 +9,12 @@ public class TreeObject {
 	
 	private long key;
 	private int duplicateCount;
+	private int longLength;
 	
-	public TreeObject(long key) {
+	public TreeObject(long key, int length) {
 		this.key = key;
 		duplicateCount = 0;
+		longLength = length;
 	}
 	
 	public void incrementDuplicate() {
@@ -44,7 +46,37 @@ public class TreeObject {
 		this.key = key;
 	}
 	
-	public void  setDupes(int dupes) {
+	public void setDupes(int dupes) {
 		this.duplicateCount = dupes;
+	}
+	
+	//THIS METHOD DOES NOT WORK YET, IT NEEDED TO BE IMPLEMENTED SO I COULD FINISH THE WRITE METHOD
+	public String toString() {
+		
+		String retString = "";
+		
+		String longString = Long.toString(key);
+		
+		for(int i = 0; i < longLength; i += 2) {
+			String sub = longString.substring(i, i + 2);
+			
+			if(sub.equals("00")) {
+				retString += "a";
+			}
+			else if(sub.equals("01")) {
+				retString += "c";
+			}
+			else if(sub.equals("10")) {
+				retString += "g";
+			}
+			else if(sub.equals("11")) {
+				retString += "t";
+			}
+		}
+		
+		retString += ": " + duplicateCount;
+		
+		return retString;
+		
 	}
 }
