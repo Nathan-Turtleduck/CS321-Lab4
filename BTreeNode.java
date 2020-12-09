@@ -56,15 +56,16 @@ public class BTreeNode {
 		node.t = raf.readInt();
 		node.n = raf.readInt();
 		
-		for(int i = 0; i < node.n; i++) {
+		for(int i = 0; i < ((2 *t) -1); i++) {
 			node.keys[i].setKeys(raf.readLong());
 			node.keys[i].setDupes(raf.readInt());
 			
 		}
 		
+		getNumChildren(); // Updates numChildren
 		node.numChildren = raf.readInt();
 		
-		for(int i = 0; i < node.getNumChildren(); i++) {
+		for(int i = 0; i < (2*t); i++) {
 			node.childrenRef[i] = raf.readInt();
 		}
 		
