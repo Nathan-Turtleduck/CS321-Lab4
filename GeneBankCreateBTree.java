@@ -8,7 +8,7 @@ public class GeneBankCreateBTree {
 	static int seqSize; //sub sequence length
 	static int degree; //degree of tree
 	static File file;
-	
+	static File dump;
 	
 	
 	public static void main(String[] args) {
