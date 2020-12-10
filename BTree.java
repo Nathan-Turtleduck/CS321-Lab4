@@ -204,5 +204,9 @@ public class BTree {
 		
 	}
 	
+	public BTreeNode getRoot() {
+		return root;
+	}
+	
 	
 }
