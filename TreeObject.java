@@ -11,8 +11,8 @@ public class TreeObject {
 	private int duplicateCount;
 	private int longLength;
 	
-	public TreeObject(String key, int length) {
-		this.key = Long.parseLong(key,2);
+	public TreeObject(long key, int length) {
+		this.key = key;
 		duplicateCount = 0;
 		longLength = length;
 	}
