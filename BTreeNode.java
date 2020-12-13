@@ -20,6 +20,11 @@ public class BTreeNode {
 		this.childrenRef = new int[2 * t];
 		this.n = 0;
 		this.numChildren = 0;
+		
+		// Load dummy objects into keys so we dont get a null pointer exception
+		for(int i = 0; i < keys.length; i++) {
+			keys[i] = new TreeObject(-1, -1);
+		}
 	}
 	
 	/**
@@ -37,6 +42,7 @@ public class BTreeNode {
 			raf.writeInt(keys[i].getDuplicateCount());
 			raf.writeInt(keys[i].getLength());
 		}
+		getNumChildren(); // It wasn't loading in all of the children so I had to add this statement
 		raf.writeInt(numChildren);
 		
 		for(int i = 0; i < numChildren; i++) {
