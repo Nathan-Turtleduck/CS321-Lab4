@@ -172,7 +172,6 @@ public class BTree {
 	public void finish() throws Exception {
 		
 		root.diskWrite();
-		
 	}
 	
 	/**
@@ -185,7 +184,7 @@ public class BTree {
 		
 		FileWriter fw = new FileWriter(fileName);
 		traverseInOrder(root, fw);
-		
+		fw.close();
 	}
 	
 	/**
