@@ -36,6 +36,11 @@ public class BTree {
 	 */
 	public BTreeNode BTreeSearch(BTreeNode root, long key) throws Exception{
 		
+		//Checks special case that root hasn't been initialized yet
+		if(root.keys[0] == null) {
+			return null;
+		}
+		
 		int i = 0; // Current index of key
 		
 		while((i < root.n) && (key > root.keys[i].getKey())) {
@@ -112,7 +117,7 @@ public class BTree {
 				i--;
 			}
 			
-			parent.keys[i+1] = newObject;
+			parent.keys[i] = newObject; 
 			parent.n = parent.n + 1;
 			parent.diskWrite();
 		}else {
