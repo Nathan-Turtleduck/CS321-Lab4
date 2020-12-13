@@ -84,7 +84,7 @@ public class GeneBankCreateBTree {
 					originCount++;
 				}
 			}
-			fileScan = fileScan.reset();
+			fileScan = new Scanner(gbkFile);
 			
 			for(int j = 0; j < originCount; j++) {
 				//Loop to find the first readable line of data
