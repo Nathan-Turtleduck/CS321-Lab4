@@ -35,6 +35,7 @@ public class BTreeNode {
 		for(int i = 0; i < n; i++) {
 			raf.writeLong(keys[i].getKey());
 			raf.writeInt(keys[i].getDuplicateCount());
+			raf.writeInt(keys[i].getLength());
 		}
 		raf.writeInt(numChildren);
 		
@@ -59,7 +60,7 @@ public class BTreeNode {
 		for(int i = 0; i < ((2 *t) -1); i++) {
 			node.keys[i].setKeys(raf.readLong());
 			node.keys[i].setDupes(raf.readInt());
-			
+			node.keys[i].setLength(raf.readInt());
 		}
 		
 		getNumChildren(); // Updates numChildren

@@ -50,6 +50,14 @@ public class TreeObject {
 		this.duplicateCount = dupes;
 	}
 	
+	public int getLength() {
+		return longLength;
+	}
+	
+	public void setLength(int length) {
+		longLength = length;
+	}
+	
 	/**
 	 * Converts the key back to a regular string and returns the key 
 	 * with its duplicate count
