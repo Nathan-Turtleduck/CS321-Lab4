@@ -75,22 +75,64 @@ public class GeneBankCreateBTree {
 			
 			Scanner fileScan = new Scanner(gbkFile);
 			String currentLine;
+			int originCount = 0;
 			
-			//Loop to find the first readable line of data
+			//COUNT NUMBER OF ORIGINS
 			while(fileScan.hasNextLine()) {
 				currentLine = fileScan.nextLine();
-				
-				//If ORIGIN is found in the line, jump to the next line and break out of the loop
 				if(currentLine.contains("ORIGIN")) {
-					break;
+					originCount++;
 				}
 			}
-			currentLine = fileScan.nextLine();
-			String subsequence;
+			fileScan = fileScan.reset();
 			
-			//Start reading data
-			while(!currentLine.contains("//")) {
-				
+			for(int j = 0; j < originCount; j++) {
+				//Loop to find the first readable line of data
+				while(fileScan.hasNextLine()) {
+					currentLine = fileScan.nextLine();
+
+					//If ORIGIN is found in the line, jump to the next line and break out of the loop
+					if(currentLine.contains("ORIGIN")) {
+						break;
+					}
+				}
+				currentLine = fileScan.nextLine();
+				String subsequence = "";
+				String currentToken = "";
+
+				char currentChar = '0';
+				//Start reading data
+				while(currentChar != '/') {
+					currentToken = fileScan.next();
+					for(int i = 0; i < currentToken.length(); i++) {
+						currentChar = currentToken.charAt(i);
+
+						if(currentChar == 'a' || currentChar == 'c' || currentChar == 'g' || currentChar == 't') {
+							subsequence = subsequence + currentChar;
+						}else if(currentChar == 'n') {
+							subsequence = "";
+						}else if(currentChar == '/') {
+							break;
+						}
+
+						if(subsequence.length() == seqSize) {
+							insertIntoTree(tree, subsequence);
+							if(subsequence.length() >= 2) {
+								subsequence = subsequence.substring(1);
+							}else {
+								subsequence = "";
+							}
+						}
+					}
+
+				}
+			}
+			
+			
+			
+			if(debug == true) {
+				dump = new File(args[2] + ".btree.dump." + seqSize);
+				tree.debugDump(dump);
 			}
 			
 			
@@ -162,5 +204,4 @@ public class GeneBankCreateBTree {
 		}
 		
 	}
-
 }
