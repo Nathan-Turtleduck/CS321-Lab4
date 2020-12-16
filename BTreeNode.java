@@ -37,7 +37,7 @@ public class BTreeNode {
 		raf.writeInt(t);
 		raf.writeInt(n);
 		
-		for(int i = 0; i < n; i++) {
+		for(int i = 0; i < ((2 *t) -1); i++) {
 			raf.writeLong(keys[i].getKey());
 			raf.writeInt(keys[i].getDuplicateCount());
 			raf.writeInt(keys[i].getLength());
@@ -45,7 +45,7 @@ public class BTreeNode {
 		getNumChildren(); // It wasn't loading in all of the children so I had to add this statement
 		raf.writeInt(numChildren);
 		
-		for(int i = 0; i < numChildren; i++) {
+		for(int i = 0; i < (2*t); i++) {
 			raf.writeInt(childrenRef[i]);
 		}
 		
@@ -69,7 +69,6 @@ public class BTreeNode {
 			node.keys[i].setLength(raf.readInt());
 		}
 		
-		getNumChildren(); // Updates numChildren
 		node.numChildren = raf.readInt();
 		
 		for(int i = 0; i < (2*t); i++) {
