@@ -74,7 +74,7 @@ public class BTree {
 		z.leaf = y.leaf;
 		z.n = t - 1;
 		
-		for(int j = 1; j < t; j++) {
+		for(int j = 1; j < t; j++) { // Index out of bounds exception
 			z.keys[j] = y.keys[j+t];
 		}
 		if(!y.leaf) {
