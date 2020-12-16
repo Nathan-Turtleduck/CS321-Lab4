@@ -109,10 +109,10 @@ public class BTree {
 	 */
 	private void BTreeInsertNonfull(BTreeNode parent, TreeObject newObject) throws Exception {
 		
-		int i = parent.n - 1;
+		int i = parent.n;
 		
 		if(parent.leaf) {
-			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) {
+			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) { // Getting index out of bounds
 				parent.keys[i+1] = parent.keys[i];
 				i--;
 			}
