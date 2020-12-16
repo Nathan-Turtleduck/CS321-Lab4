@@ -52,7 +52,7 @@ public class BTreeNode {
 		
 		raf.writeBoolean(leaf);
 		raf.writeInt(start);
-		raf.writeInt(-1); // Dummy value so we can start writing at that current offset
+//		raf.writeInt(-1); // Dummy value so we can start writing at that current offset
 		return (int) raf.getFilePointer(); // I don't think this is a problem by casting it, but let's flag this as a potential error
 	}
 	
