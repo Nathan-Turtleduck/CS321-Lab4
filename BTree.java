@@ -130,6 +130,8 @@ public class BTree {
 			
 			if(child.n == (2*t - 1)) {
 				BTreeSplitChild(parent, i);
+				parent = parent.diskRead(parent.start);
+				child = parent.diskRead(parent.childrenRef[i]);
 				if(newObject.getKey() > parent.keys[i].getKey()) {
 					i++;
 				}
@@ -152,6 +154,7 @@ public class BTree {
 		if(r.n == (2*t - 1)) {
 			
 			r.start = currentByte; // Readjust where the root is written
+//			r.leaf = true; //This might fix something?
 			currentByte = r.diskWrite();
 			
 			BTreeNode s = new BTreeNode(t, 0, raf); // Write the new root to be the beginning of the file
