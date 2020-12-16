@@ -109,10 +109,10 @@ public class BTree {
 	 */
 	private void BTreeInsertNonfull(BTreeNode parent, TreeObject newObject) throws Exception {
 		
-		int i = parent.n;
+		int i = parent.n - 1;
 		
 		if(parent.leaf) {
-			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) { // Getting index out of bounds
+			while((i >= 0) && (newObject.getKey() < parent.keys[i].getKey())) { // Getting index out of bounds
 				parent.keys[i+1] = parent.keys[i];
 				i--;
 			}
@@ -122,7 +122,7 @@ public class BTree {
 			parent.diskWrite();
 		}else {
 			
-			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) {
+			while((i >= 0) && (newObject.getKey() < parent.keys[i].getKey())) {
 				i--;
 			}
 			i++;
@@ -160,6 +160,7 @@ public class BTree {
 			s.n = 0;
 			s.childrenRef[1] = r.start; // THIS MAY BE AN OFF BY 1 ERROR. WE WILL HAVE TO SEE
 			BTreeSplitChild(s, 1);
+			s = s.diskRead(0);
 			BTreeInsertNonfull(s, newObject);
 			
 		}else {
