@@ -74,25 +74,25 @@ public class BTree {
 		z.leaf = y.leaf;
 		z.n = t - 1;
 		
-		for(int j = 1; j < t; j++) { // Index out of bounds exception
+		for(int j = 1; j < t - 1; j++) { // Index out of bounds exception
 			z.keys[j] = y.keys[j+t];
 		}
 		if(!y.leaf) {
-			for(int j = 1; j <= t; j++) {
+			for(int j = 1; j < t; j++) {
 				z.childrenRef[j] = y.childrenRef[j+t];
 			}
 		}
 		y.n = t-1;
 		
-		for(int j = x.n + 1; j > i; j--) {
+		for(int j = x.n + 1; j > i + 1; j--) {
 			x.childrenRef[j+1] = x.childrenRef[j];
 		}
 		x.childrenRef[i+1] = z.start;
 		
-		for(int j = x.n; j >= i; j--) {
+		for(int j = x.n; j > i; j--) {
 			x.keys[j+1] = x.keys[j];
 		}
-		x.keys[i+1] = y.keys[t];
+		x.keys[i] = y.keys[t];
 		x.n = x.n + 1;
 		
 		y.diskWrite();
@@ -109,7 +109,7 @@ public class BTree {
 	 */
 	private void BTreeInsertNonfull(BTreeNode parent, TreeObject newObject) throws Exception {
 		
-		int i = parent.n;
+		int i = parent.n - 1;
 		
 		if(parent.leaf) {
 			while((i >= 1) && (newObject.getKey() < parent.keys[i].getKey())) {
@@ -117,7 +117,7 @@ public class BTree {
 				i--;
 			}
 			
-			parent.keys[i] = newObject; 
+			parent.keys[i+1] = newObject; 
 			parent.n = parent.n + 1;
 			parent.diskWrite();
 		}else {
@@ -151,8 +151,8 @@ public class BTree {
 		
 		if(r.n == (2*t - 1)) {
 			
-			root.start = currentByte; // Readjust where the root is written
-			currentByte = root.diskWrite();
+			r.start = currentByte; // Readjust where the root is written
+			currentByte = r.diskWrite();
 			
 			BTreeNode s = new BTreeNode(t, 0, raf); // Write the new root to be the beginning of the file
 			root = s;
