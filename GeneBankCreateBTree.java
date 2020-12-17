@@ -161,7 +161,7 @@ public class GeneBankCreateBTree {
 	 */
 	private static void insertIntoTree(BTree tree, String subsequence) throws Exception {
 		
-		subsequence.toLowerCase();
+		subsequence = subsequence.toLowerCase();
 		//Convert subsequence into 2-bit binary
 		String binarySeq = "";
 		
