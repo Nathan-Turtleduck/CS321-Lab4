@@ -77,6 +77,7 @@ public class GeneBankSearch {
 		
 		fileWriter.close();
 		queryScanner.close();
+		System.out.println("Query has been successfully executed.");
 	}
 
 	private static void printUsage() {
