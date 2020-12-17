@@ -6,7 +6,8 @@ public class GeneBankSearch {
 	static int cacheUse;
 	static File bTreeFile;
 	static File queryFile;
-	static int sequenceLength;
+	static int cacheSize;
+	static int debug;
 	
 	public static void main(String[] args) {
 		
@@ -16,7 +17,7 @@ public class GeneBankSearch {
 		}
 		
 		//cache information
-		if(Integer.parseInt(args[0]) == 0|| Integer.parseInt(args[0]) == 1) {
+		if(Integer.parseInt(args[0]) == 0 || Integer.parseInt(args[0]) == 1) {
 			//INSERT CACHE STUFF HERE ONCE IMPLEMENTED
 		} else {
 			System.out.println("Invalid argument given for cache value");
@@ -35,7 +36,24 @@ public class GeneBankSearch {
 			System.exit(1);
 		}
 		
-		sequenceLength = Integer.parseInt(args[3]);
+		if(args.length > 3) {
+			cacheSize = Integer.parseInt(args[3]);
+			if(cacheSize <= 0) {
+				System.out.println("CacheSize must be bigger than 0");
+				printUsage();
+			}
+		}
+		
+		if(args.length == 5) {
+			debug = Integer.parseInt(args[4]);
+			if(debug != 0 || debug != 1) {
+				System.out.println("Debug can only be 0 or 1");
+				printUsage();
+			}
+		}
+		
+		
+		
 		
 
 	}
