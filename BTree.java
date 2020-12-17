@@ -90,7 +90,7 @@ public class BTree {
 		}
 		y.n = t - 1;
 		
-		for(int j = x.n; j > i + 1; j--) {
+		for(int j = x.n; j > i; j--) {
 			x.childrenRef[j+1] = x.childrenRef[j];
 		}
 		x.childrenRef[i+1] = z.start;
