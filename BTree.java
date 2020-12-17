@@ -33,7 +33,7 @@ public class BTree {
 		
 		this.raf = raf;
 		raf.seek(0);
-		BTreeNode loadedNode = new BTreeNode(0, 0, this.raf);
+		BTreeNode loadedNode = new BTreeNode(10, 0, this.raf);
 		loadedNode = loadedNode.diskRead(0);
 		root = loadedNode;
 		
