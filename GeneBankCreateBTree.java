@@ -83,7 +83,9 @@ public class GeneBankCreateBTree {
 			}
 			
 			//create new files
-			file = new File(args[2] + ".btree.data." + seqSize + "." + degree);
+			int testIndex1 = args[2].indexOf("test");
+			int testIndex2 = args[2].indexOf("gbk") + 1;
+			file = new File("./" + args[2].substring(testIndex1, testIndex2) + ".btree.data." + seqSize + "." + degree);
 			file.createNewFile();
 			RandomAccessFile RAF = new RandomAccessFile(file, "rw");
 			tree = new BTree(degree, RAF);
@@ -152,7 +154,7 @@ public class GeneBankCreateBTree {
 			
 			
 			if(debug == true) {
-				dump = new File(args[2] + ".btree.dump." + seqSize);
+				dump = new File("./" + args[2].substring(testIndex1, testIndex2) + ".btree.dump." + seqSize);
 				tree.debugDump(dump);
 			}
 			
