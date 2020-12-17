@@ -20,6 +20,8 @@ public class GeneBankSearch {
 	static int debug;
 	static FileWriter fileWriter;
 	static BTree thisTree;
+	static Cache cache;
+	static boolean cacheFlag;
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -30,7 +32,9 @@ public class GeneBankSearch {
 		
 		//cache information
 		if(Integer.parseInt(args[0]) == 0 || Integer.parseInt(args[0]) == 1) {
-			//INSERT CACHE STUFF HERE ONCE IMPLEMENTED
+			if(Integer.parseInt(args[0]) == 1) {
+				cacheFlag = true;
+			}
 		} else {
 			System.out.println("Invalid argument given for cache value");
 			System.exit(1);
@@ -54,6 +58,7 @@ public class GeneBankSearch {
 				System.out.println("CacheSize must be bigger than 0");
 				printUsage();
 			}
+			cache = new Cache(cacheSize);
 		}
 		
 		if(args.length == 5) {
@@ -80,7 +85,11 @@ public class GeneBankSearch {
 		while(queryScanner.hasNext()) {
 			
 			String query = queryScanner.next();
-			searchBTree(query);
+			if(cacheFlag == true) {
+				searchBTreeCache(query);
+			}else {
+				searchBTree(query);
+			}
 		}
 		
 		fileWriter.close();
@@ -137,4 +146,52 @@ public class GeneBankSearch {
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	private static void searchBTreeCache(String query) throws Exception {
+			
+			query = query.toLowerCase();
+			//Convert subsequence into 2-bit binary
+			String binarySeq = "";
+			
+			for(int i = 0; i < query.length(); i++) {
+				
+				if(query.charAt(i) == 'a') {
+					binarySeq = binarySeq + "00";
+				}
+				else if(query.charAt(i) == 'c') {
+					binarySeq = binarySeq + "01";
+				}
+				else if(query.charAt(i) == 'g') {
+					binarySeq = binarySeq + "10";
+				}
+				else if(query.charAt(i) == 't') {
+					binarySeq = binarySeq + "11";
+				}
+				
+			}
+			
+			//Long value to be searched for in the tree
+			Long value = Long.parseLong(binarySeq, 2);
+			TreeObject key = new TreeObject(value, 0);
+			
+			if(cache.getObject(key)) {
+				cache.addToTop(key);
+			}else {
+				cache.addObject(key);
+			}
+			
+			BTreeNode foundNode = thisTree.BTreeSearch(thisTree.getRoot(), value);
+			
+			if(foundNode == null) {
+				fileWriter.write(query.toLowerCase() + ": 0\n");
+			}
+			else {
+				for(int i = 0; i < foundNode.n; i++) {
+					if(foundNode.keys[i].compareTo(key) == 0) {
+						fileWriter.write(foundNode.keys[i].toString() + "\n");
+					}
+				}
+			}
+		}
 }

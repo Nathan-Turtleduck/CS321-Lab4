@@ -17,7 +17,9 @@ public class GeneBankCreateBTree {
 	static File gbkFile;
 	static File dump;
 	static boolean debug;
+	static boolean cacheFlag;
 	static int cacheSize;
+	static Cache cache;
 	
 	public static void main(String[] args) {
 		
@@ -29,9 +31,11 @@ public class GeneBankCreateBTree {
 			}
 			
 			//cache information
-			if(Integer.parseInt(args[0]) == 0|| Integer.parseInt(args[0]) == 1) {
-				//INSERT CACHE STUFF HERE ONCE IMPLEMENTED
-			} else {
+			if(Integer.parseInt(args[0]) == 0 || Integer.parseInt(args[0]) == 1) {
+				if(Integer.parseInt(args[0]) == 1) {
+					cacheFlag = true;
+				}
+			}else {
 				System.out.println("Invalid argument given for cache value");
 				System.exit(1);
 			}
@@ -62,6 +66,13 @@ public class GeneBankCreateBTree {
 			// Get Cache size
 			if(args.length == 5) {
 				cacheSize = Integer.parseInt(args[4]);
+				
+				if(cacheSize <= 0) {
+					System.out.println("Error: Cache Size must be greater than 0");
+					printUsage();
+					System.exit(1);
+				}
+				cache = new Cache(cacheSize);
 			}
 			
 			//See if a debug file is needed
@@ -122,7 +133,11 @@ public class GeneBankCreateBTree {
 						}
 
 						if(subsequence.length() == seqSize) {
-							insertIntoTree(tree, subsequence);
+							if(cacheFlag == true) {
+								insertIntoTreeCache(tree, subsequence);
+							}else {
+								insertIntoTree(tree, subsequence);
+							}
 							if(subsequence.length() >= 2) {
 								subsequence = subsequence.substring(1);
 							}else {
@@ -210,5 +225,58 @@ public class GeneBankCreateBTree {
 			
 		}
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static void insertIntoTreeCache(BTree tree, String subsequence) throws Exception {
+		
+		subsequence = subsequence.toLowerCase();
+		//Convert subsequence into 2-bit binary
+		String binarySeq = "";
+		
+		for(int i = 0; i < subsequence.length(); i++) {
+			
+			if(subsequence.charAt(i) == 'a') {
+				binarySeq = binarySeq + "00";
+			}
+			else if(subsequence.charAt(i) == 'c') {
+				binarySeq = binarySeq + "01";
+			}
+			else if(subsequence.charAt(i) == 'g') {
+				binarySeq = binarySeq + "10";
+			}
+			else if(subsequence.charAt(i) == 't') {
+				binarySeq = binarySeq + "11";
+			}
+			
+		}
+		
+		//Long value to be inserted
+		Long value = Long.parseLong(binarySeq, 2);
+		
+		TreeObject key = new TreeObject(value , binarySeq.length());
+		
+		if(cache.getObject(key) == true) {
+			cache.addToTop(key);
+		}else {
+			cache.addObject(key);
+		}
+		
+		//Check to see if node is in the tree already
+		BTreeNode retNode = tree.BTreeSearch(tree.getRoot(), value);
+		
+		if(retNode == null) {
+			tree.BTreeInsert(key);
+		}else {
+			// If a key with the same value is found, increment that duplicate and break
+			for(int i = 0; i < retNode.n; i++) {
+				if(retNode.keys[i].compareTo(key) == 0) {
+					retNode.keys[i].incrementDuplicate();
+					retNode.diskWrite();
+					break;
+				}
+			}
+			
+		}
 	}
 }
