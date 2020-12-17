@@ -6,7 +6,6 @@ import java.io.RandomAccessFile;
 public class BTree {
 	
 	private BTreeNode root; // Root of tree
-	private BTreeNode loadedNode; // Current loaded Node
 	private int t; // Degree of B-tree
 	private int currentByte; // Points to the end of file byte
 	private RandomAccessFile raf; // Random Access File to be written to
@@ -21,8 +20,23 @@ public class BTree {
 		x.leaf = true;
 		x.n = 0;
 		root = x;
-		loadedNode = x;
 		currentByte = root.diskWrite();
+	}
+	
+	/**
+	 * Creates a BTree Object from a raf and loads in the root
+	 * This method should only be called if you're only searching the tree. This is not for editing
+	 * @param raf
+	 * @throws Exception
+	 */
+	public BTree(RandomAccessFile raf) throws Exception {
+		
+		this.raf = raf;
+		raf.seek(0);
+		BTreeNode loadedNode = new BTreeNode(0, 0, this.raf);
+		loadedNode = loadedNode.diskRead(0);
+		root = loadedNode;
+		
 	}
 	
 	/**
