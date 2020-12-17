@@ -47,7 +47,7 @@ public class BTree {
 			i++;
 		}
 		
-		if((i <= root.n) && (key == root.keys[i].getKey())) {
+		if((i < root.n) && (key == root.keys[i].getKey())) {
 			return root;
 		}
 		else if(root.leaf == true) {
@@ -74,15 +74,17 @@ public class BTree {
 		z.leaf = y.leaf;
 		z.n = t - 1;
 		
-		for(int j = 1; j < t - 1; j++) { // Index out of bounds exception
+		for(int j = 0; j < t - 1; j++) { 
 			z.keys[j] = y.keys[j+t];
+			y.keys[j+t] = new TreeObject(-1, -1);
 		}
 		if(!y.leaf) {
-			for(int j = 1; j < t; j++) {
+			for(int j = 0; j < t; j++) {
 				z.childrenRef[j] = y.childrenRef[j+t];
+				y.childrenRef[j+t] = -1;
 			}
 		}
-		y.n = t-1;
+		y.n = t - 1;
 		
 		for(int j = x.n + 1; j > i + 1; j--) {
 			x.childrenRef[j+1] = x.childrenRef[j];
@@ -92,7 +94,8 @@ public class BTree {
 		for(int j = x.n; j > i; j--) {
 			x.keys[j+1] = x.keys[j];
 		}
-		x.keys[i] = y.keys[t];
+		x.keys[i] = y.keys[t -1];
+		y.keys[t -1] = new TreeObject(-1, -1);
 		x.n = x.n + 1;
 		
 		y.diskWrite();
@@ -112,13 +115,13 @@ public class BTree {
 		int i = parent.n - 1;
 		
 		if(parent.leaf) {
-			while((i >= 0) && (newObject.getKey() < parent.keys[i].getKey())) { // Getting index out of bounds
+			while((i >= 0) && (newObject.getKey() < parent.keys[i].getKey())) { 
 				parent.keys[i+1] = parent.keys[i];
 				i--;
 			}
 			
 			parent.keys[i+1] = newObject; 
-			parent.n = parent.n + 1;
+			parent.n = parent.getN();
 			parent.diskWrite();
 		}else {
 			
@@ -161,8 +164,8 @@ public class BTree {
 			root = s;
 			s.leaf = false;
 			s.n = 0;
-			s.childrenRef[1] = r.start; // THIS MAY BE AN OFF BY 1 ERROR. WE WILL HAVE TO SEE
-			BTreeSplitChild(s, 1);
+			s.childrenRef[0] = r.start; // THIS MAY BE AN OFF BY 1 ERROR. WE WILL HAVE TO SEE
+			BTreeSplitChild(s, 0);
 			s = s.diskRead(0);
 			BTreeInsertNonfull(s, newObject);
 			
@@ -208,8 +211,9 @@ public class BTree {
 			traverseInOrder(node.diskRead(node.childrenRef[i]), fw);
 			fw.write(node.keys[i].toString() + "\n");
 		}
-		traverseInOrder(node.diskRead(node.childrenRef[node.getNumChildren() -1]), fw);
-		
+		if(!node.leaf) {
+			traverseInOrder(node.diskRead(node.childrenRef[node.getNumChildren() -1]), fw);
+		}
 	}
 	
 	public BTreeNode getRoot() {

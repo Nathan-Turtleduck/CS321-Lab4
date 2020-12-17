@@ -25,6 +25,10 @@ public class BTreeNode {
 		for(int i = 0; i < keys.length; i++) {
 			keys[i] = new TreeObject(-1, -1);
 		}
+		
+		for(int i = 0; i < childrenRef.length; i++) {
+			childrenRef[i] = -1;
+		}
 	}
 	
 	/**
@@ -90,7 +94,7 @@ public class BTreeNode {
 		
 		for(int i = 0; i < childrenRef.length; i++) {
 			
-			if(childrenRef[i] >= 0) {
+			if(childrenRef[i] != -1) {
 				retVal++;
 			}
 			
@@ -98,6 +102,20 @@ public class BTreeNode {
 		numChildren = retVal;
 		return retVal;
 		
+	}
+	
+	public int getN() {
+		int retVal = 0;
+		
+		for(int i = 0; i < keys.length; i++) {
+			
+			if(keys[i].getKey() != -1) {
+				retVal++;
+			}
+		}
+		
+		n = retVal;
+		return retVal;
 	}
 	
 	
