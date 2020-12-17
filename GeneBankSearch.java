@@ -65,7 +65,9 @@ public class GeneBankSearch {
 		
 		//Create Scanner to read the queries and create result file
 		Scanner queryScanner = new Scanner(queryFile);
-		String resultName = args[2] + "_" + "result"; // This needs to be fixed. Files names are weird
+		int startIndex = args[1].indexOf("test");
+		int queryIndex = args[2].indexOf("query");
+		String resultName = args[1].substring(startIndex, startIndex + 5) + "_" + args[2].substring(queryIndex, queryIndex + 6) + "_" + "result"; // This needs to be fixed. Files names are weird
 		File resultFile = new File(resultName);
 		fileWriter = new FileWriter(resultFile);
 		
