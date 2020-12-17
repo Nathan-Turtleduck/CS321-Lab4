@@ -76,9 +76,9 @@ public class BTree {
 			i++;
 		}
 		
-		if(root.keys[i].getKey() == -1 && (i == 1)) {
-			return null;
-		}
+//		if(root.keys[i].getKey() == -1 && (i == 1)) {
+//			return null;
+//		}
 		
 		if((i < root.n) && (key == root.keys[i].getKey())) {
 			return root;
