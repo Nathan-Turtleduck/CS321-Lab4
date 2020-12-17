@@ -33,9 +33,24 @@ public class BTree {
 		
 		this.raf = raf;
 		raf.seek(0);
-		BTreeNode loadedNode = new BTreeNode(10, 0, this.raf);
-		loadedNode = loadedNode.diskRead(0);
-		root = loadedNode;
+		t = raf.readInt();
+		root = new BTreeNode(t, 0, raf);
+		root.n = raf.readInt();
+		
+		for(int i = 0; i < ((2 *t) -1); i++) {
+			root.keys[i].setKeys(raf.readLong());
+			root.keys[i].setDupes(raf.readInt());
+			root.keys[i].setLength(raf.readInt());
+		}
+		
+		root.numChildren = raf.readInt();
+		
+		for(int i = 0; i < (2*t); i++) {
+			root.childrenRef[i] = raf.readInt();
+		}
+		
+		root.leaf = raf.readBoolean();
+		root.start = raf.readInt();
 		
 	}
 	
