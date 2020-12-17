@@ -65,7 +65,7 @@ public class GeneBankSearch {
 		
 		//Create Scanner to read the queries and create result file
 		Scanner queryScanner = new Scanner(queryFile);
-		String resultName = args[1].substring(0, 4) + "_" + args[2] + "_" + "result";
+		String resultName = args[2] + "_" + "result"; // This needs to be fixed. Files names are weird
 		File resultFile = new File(resultName);
 		fileWriter = new FileWriter(resultFile);
 		
@@ -90,7 +90,7 @@ public class GeneBankSearch {
 	
 	private static void searchBTree(String query) throws Exception {
 		
-		query.toLowerCase();
+		query = query.toLowerCase();
 		//Convert subsequence into 2-bit binary
 		String binarySeq = "";
 		
