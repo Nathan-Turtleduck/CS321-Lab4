@@ -13,7 +13,7 @@ public class TreeObject {
 	
 	public TreeObject(long key, int length) {
 		this.key = key;
-		duplicateCount = 0;
+		duplicateCount = 1; // There's at least 1 in each 
 		longLength = length;
 	}
 	
