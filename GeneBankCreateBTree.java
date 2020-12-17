@@ -96,7 +96,7 @@ public class GeneBankCreateBTree {
 						break;
 					}
 				}
-				currentLine = fileScan.nextLine();
+//				currentLine = fileScan.nextLine();
 				String subsequence = "";
 				String currentToken = "";
 
@@ -195,8 +195,9 @@ public class GeneBankCreateBTree {
 		}else {
 			// If a key with the same value is found, increment that duplicate and break
 			for(int i = 0; i < retNode.n; i++) {
-				if(retNode.keys[i].equals(key)) {
+				if(retNode.keys[i].compareTo(key) == 0) {
 					retNode.keys[i].incrementDuplicate();
+					retNode.diskWrite();
 					break;
 				}
 			}

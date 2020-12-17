@@ -37,7 +37,7 @@ public class BTree {
 	public BTreeNode BTreeSearch(BTreeNode root, long key) throws Exception{
 		
 		//Checks special case that root hasn't been initialized yet
-		if(root.keys[0] == null) {
+		if(root.keys[0].getKey() == -1) {
 			return null;
 		}
 		
@@ -45,6 +45,10 @@ public class BTree {
 		
 		while((i < root.n) && (key > root.keys[i].getKey())) {
 			i++;
+		}
+		
+		if(root.keys[i].getKey() == -1) {
+			return null;
 		}
 		
 		if((i < root.n) && (key == root.keys[i].getKey())) {
@@ -86,12 +90,12 @@ public class BTree {
 		}
 		y.n = t - 1;
 		
-		for(int j = x.n + 1; j > i + 1; j--) {
+		for(int j = x.n; j > i + 1; j--) {
 			x.childrenRef[j+1] = x.childrenRef[j];
 		}
 		x.childrenRef[i+1] = z.start;
 		
-		for(int j = x.n; j > i; j--) {
+		for(int j = x.n -1; j > i; j--) {
 			x.keys[j+1] = x.keys[j];
 		}
 		x.keys[i] = y.keys[t -1];
