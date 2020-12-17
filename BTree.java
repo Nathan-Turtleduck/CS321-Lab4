@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Team 4, Ben Davies, Nathan Maroko, Jacob Godby
+ *
+ *This class implements pseudocode for a BTree
+ *It is not fully functioning but compiles and runs
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

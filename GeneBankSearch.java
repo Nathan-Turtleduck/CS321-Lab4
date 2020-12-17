@@ -1,4 +1,10 @@
-
+/**
+ * 
+ * @author Team 4, Ben Davies, Nathan Maroko, Jacob Godby
+ *
+ *This class takes in a query file and searches a given
+ *BTree file for various queries
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

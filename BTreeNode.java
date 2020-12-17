@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Team 4, Ben Davies, Nathan Maroko, Jacob Godby
+ *
+ *This class outlines the data for a BTreeNode
+ *It contains various methods and data that a node in a BTree would contain
+ */
 import java.io.IOException;
 import java.io.RandomAccessFile;
 

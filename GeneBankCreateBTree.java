@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Team 4, Ben Davies, Nathan Maroko, Jacob Godby
+ *
+ *This class creates a BTree from a given gbk file
+ */
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
