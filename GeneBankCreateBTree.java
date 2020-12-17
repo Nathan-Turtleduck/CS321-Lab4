@@ -42,7 +42,7 @@ public class GeneBankCreateBTree {
 			
 			//degree of tree
 			if(Integer.parseInt(args[1]) == 0) {
-				//FIND OPTIMAL DEGREE
+				degree = (int) (Math.pow(Integer.parseInt(args[3]), 3) + 1);
 			} else {
 				degree = Integer.parseInt(args[1]); 
 			}
