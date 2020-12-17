@@ -76,7 +76,7 @@ public class BTree {
 			i++;
 		}
 		
-		if(root.keys[i].getKey() == -1) {
+		if(root.keys[i].getKey() == -1 && (i == 1)) {
 			return null;
 		}
 		
@@ -197,7 +197,7 @@ public class BTree {
 			root = s;
 			s.leaf = false;
 			s.n = 0;
-			s.childrenRef[0] = r.start; // THIS MAY BE AN OFF BY 1 ERROR. WE WILL HAVE TO SEE
+			s.childrenRef[0] = r.start; 
 			BTreeSplitChild(s, 0);
 			s = s.diskRead(0);
 			BTreeInsertNonfull(s, newObject);
@@ -242,11 +242,20 @@ public class BTree {
 		
 		for(int i = 0; i < node.getNumChildren(); i++) {
 			traverseInOrder(node.diskRead(node.childrenRef[i]), fw);
-			fw.write(node.keys[i].toString() + "\n");
+			if(i < node.n) {
+				fw.write(node.keys[i].toString() + "\n");
+			}
 		}
 		if(!node.leaf) {
 			traverseInOrder(node.diskRead(node.childrenRef[node.getNumChildren() -1]), fw);
+		}else {
+			for(int j = 0; j < node.n; j++) {
+				if(node.keys[j].getKey() != -1) {
+					fw.write(node.keys[j].toString() + "\n");
+				}
+			}
 		}
+		
 	}
 	
 	public BTreeNode getRoot() {
