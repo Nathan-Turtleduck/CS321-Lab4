@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class GeneBankCreateBTree {
 
-	static BTree tree;
+	static BTree tree; //the BTree
 	static int seqSize; //sub sequence length
 	static int degree; //degree of tree
 	static File file;
