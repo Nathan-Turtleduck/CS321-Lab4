@@ -1,0 +1,17 @@
+In this document we discuss our grievances with this project:
+
+After hours of debugging we finally got our BTree class to work and run.
+We discovered that there were other issues once we finally got a result. We boiled our issues
+down to the TreeTraversal method and the TreeSearch method. We think the last of our problems reside in these
+methods. We don't have the resources to solve these problems but have been working on them for hours on end.
+We attended a learning help session but didn't find any fixes to our problems and ended up solving them on our own.
+
+We are quite clueless on figuring out how to implement Cache into our project. We are hoping that by typing
+up this readme we can at least get a couple points for it being here. Even though we didn't implement Cache,
+it's a pretty safe assumption to say that our program would run faster if we used it.
+
+If we were to do this project again, we would want more guidance when it comes to the BTree class and better
+pseudocode to follow. The pseudocode kind of guided us in the right direction but fell flat because of how we
+implemented it. We didn't have any pseudocode on the TreeTraversal method so I think that caused problems as well.
+
+Regardless, we all tried our best and put a lot of time into this project.
