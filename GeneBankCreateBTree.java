@@ -84,7 +84,7 @@ public class GeneBankCreateBTree {
 			
 			//create new files
 			int testIndex1 = args[2].indexOf("test");
-			int testIndex2 = args[2].indexOf("gbk") + 1;
+			int testIndex2 = args[2].indexOf("gbk") + 3;
 			file = new File("./" + args[2].substring(testIndex1, testIndex2) + ".btree.data." + seqSize + "." + degree);
 			file.createNewFile();
 			RandomAccessFile RAF = new RandomAccessFile(file, "rw");
